@@ -9,7 +9,7 @@ MAINTAINER Björn Dieding <bjoern@xrow.de>
 #	yum -y install source-to-image && \
 #	yum clean all
 RUN apk update && \
-    apk add curl tar git && \
+    apk add curl tar git ssh && \
     curl -L -o s2i.tgz -O https://github.com/openshift/source-to-image/releases/download/v1.1.10/source-to-image-v1.1.10-27f0729d-linux-amd64.tar.gz && \
     tar -xvf s2i.tgz . && \
     cp s2i /usr/local/bin
