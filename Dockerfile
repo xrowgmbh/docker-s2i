@@ -8,7 +8,7 @@ LABEL maintainer="bjoern@xrow.de" \
 
 ENV KUBECONFIG="~/.kube/config"
 
-RUN yum install -y gettext docker ansible openssh-clients sshpass \
+RUN yum install -y git gettext docker ansible openssh-clients sshpass \
  && yum clean all \
  && rm -Rf /var/cache/yum
 
@@ -26,3 +26,7 @@ RUN OC_DOWNLOAD_URL="https://github.com/openshift/origin/releases/download/v3.11
  && mv $TMP/{oc,kubectl} /usr/local/bin \
  && rm -Rf $TMP \
  && mkdir ~/.kube
+
+RUN JQ_DOWNLOAD_URL="https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64" \
+ && curl -sSfLo /bin/jq $JQ_DOWNLOAD_URL \
+ && chmod +x /bin/jq
