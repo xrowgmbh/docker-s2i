@@ -8,7 +8,10 @@ LABEL maintainer="bjoern@xrow.de" \
 
 ENV KUBECONFIG="~/.kube/config"
 
-RUN yum install -y gettext docker ansible openssh-clients sshpass \
+RUN yum install -y gettext ansible openssh-clients sshpass yum-utils \
+ && yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo \
+ && yum install -y docker-ce-cli \
+ && yum remove -y yum-utils \
  && yum clean all \
  && rm -Rf /var/cache/yum
 
