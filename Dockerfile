@@ -6,7 +6,9 @@ LABEL maintainer="bjoern@xrow.de" \
       org.label-schema.vendor="xrow GmbH" \
       org.label-schema.license="GPLv2"
 
-ENV KUBECONFIG="~/.kube/config"
+ENV HOME="/root"
+
+ENV KUBECONFIG="$HOME/.kube/config"
 
 RUN yum install -y gettext ansible openssh-clients sshpass yum-utils \
  && yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo \
@@ -28,4 +30,6 @@ RUN OC_DOWNLOAD_URL="https://github.com/openshift/origin/releases/download/v3.11
  && curl -sSfL $OC_DOWNLOAD_URL | tar -xz --strip-components=1 -C $TMP \
  && mv $TMP/{oc,kubectl} /usr/local/bin \
  && rm -Rf $TMP \
- && mkdir ~/.kube
+ && mkdir $(dirname $KUBECONFIG)
+
+WORKDIR $HOME
