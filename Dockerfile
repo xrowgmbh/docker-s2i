@@ -10,7 +10,8 @@ ENV HOME="/root"
 
 ENV KUBECONFIG="$HOME/.kube/config"
 
-RUN yum install -y git gettext ansible openssh-clients sshpass yum-utils yamllint epel-release \
+RUN yum install -y epel-release \
+ && yum install -y git gettext ansible openssh-clients sshpass yum-utils yamllint \
  && yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo \
  && yum install -y docker-ce-cli \
  && yum remove -y yum-utils \
