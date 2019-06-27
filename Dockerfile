@@ -27,6 +27,11 @@ RUN S2I_DOWNLOAD_URL="https://github.com/openshift/source-to-image/releases/down
 
 COPY digicert.crt /etc/pki/ca-trust/source/anchors/digi.crt
 
+RUN TMP=$(mktemp -d) \
+ && curl -sSfL https://get.helm.sh/helm-v2.14.1-linux-amd64.tar.gz | tar -xz -C $TMP \
+ && mv $TMP/linux-amd64/helm /usr/local/bin \
+ && chmod +x /usr/local/bin/helm
+
 # Archive contains binaries for oc and kubectl
 RUN OC_DOWNLOAD_URL="https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz" \
  && TMP=$(mktemp -d) \
