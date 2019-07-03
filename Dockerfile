@@ -40,15 +40,6 @@ RUN OC_DOWNLOAD_URL="https://github.com/openshift/origin/releases/download/v3.11
  && rm -Rf $TMP \
  && mkdir $(dirname $KUBECONFIG) \
  && update-ca-trust extract
-
-# Archive contains binaries for oc and kubectl
-RUN OC_DOWNLOAD_URL="https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz" \
- && TMP=$(mktemp -d) \
- && curl -sSfL $OC_DOWNLOAD_URL | tar -xz --strip-components=1 -C $TMP \
- && mv $TMP/{oc,kubectl} /usr/local/bin \
- && rm -Rf $TMP \
- && mkdir $(dirname $KUBECONFIG) \
- && update-ca-trust extract
  
 RUN export RELEASE_VERSION="v0.8.1" \
  && curl -o /usr/local/bin/operator-sdk -OJL https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu \
