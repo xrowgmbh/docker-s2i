@@ -7,6 +7,7 @@ LABEL maintainer="bjoern@xrow.de" \
       org.label-schema.license="GPLv2"
 
 ENV HOME="/root"
+ENV LANG en_US.UTF-8
 
 ENV KUBECONFIG="$HOME/.kube/config"
 
