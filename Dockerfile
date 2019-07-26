@@ -11,11 +11,13 @@ ENV LANG=en_US.UTF-8
 
 ENV KUBECONFIG="$HOME/.kube/config"
 
+ADD bin/uid_entrypoint /opt/uid_entrypoint
+
 RUN yum install -y epel-release \
  && yum install -y git gettext ansible openssh-clients sshpass yum-utils yamllint \
  && yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo \
  && yum install -y docker-ce-cli \
- && alias docker="if [ -z ${DOCKER_HOST+x} ] && [ ! -z ${DOCKER_PORT+x} ]; then export DOCKER_HOST=$DOCKER_PORT; fi;/usr/bin/docker" \
+ && chmod 755 /bin/uid_entrypoint \
  && yum remove -y yum-utils \
  && yum clean all \
  && rm -Rf /var/cache/yum
@@ -46,5 +48,9 @@ RUN OC_DOWNLOAD_URL="https://github.com/openshift/origin/releases/download/v3.11
 RUN export RELEASE_VERSION="v0.8.1" \
  && curl -o /usr/local/bin/operator-sdk -OJL https://github.com/operator-framework/operator-sdk/releases/download/${RELEASE_VERSION}/operator-sdk-${RELEASE_VERSION}-x86_64-linux-gnu \
  && chmod 755 /usr/local/bin/operator-sdk
+
+USER 1001
+
+ENTRYPOINT [ "/bin/uid_entrypoint" ]
 
 WORKDIR $HOME
