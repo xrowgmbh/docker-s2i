@@ -2,7 +2,7 @@ FROM centos:7
 
 LABEL maintainer="bjoern@xrow.de" \
       org.label-schema.schema-version="1.0" \
-      org.label-schema.name="Builder and management image for cloud native CI / CD pipelines S2I, Docker in Docker, Operators, HELM, ..." \
+      org.label-schema.name="Builder and management image for cloud native systems with S2I, Docker in Docker, Operators, HELM, Kubernetes Deployments ..." \
       org.label-schema.vendor="xrow GmbH" \
       org.label-schema.license="GPLv2"
 
