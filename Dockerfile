@@ -58,6 +58,7 @@ RUN curl -LO https://github.com/kubernetes-sigs/kubefed/releases/download/v${KUB
 COPY ./root/ /
 
 RUN chmod 755 /usr/bin/uid_entrypoint && \
+    chmod 777 -R /root && \
     chmod g=u /etc/passwd
 
 ENTRYPOINT [ "uid_entrypoint" ]
