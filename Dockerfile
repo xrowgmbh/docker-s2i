@@ -18,13 +18,10 @@ ENV COMPOSE_VERSION=1.23.2
 ENV OC_VERSION=1.23.2
 ENV S2I_VERSION=1.1.13
 
-ADD bin/uid_entrypoint /bin/uid_entrypoint
-
 RUN yum install -y epel-release \
  && yum install -y git gettext ansible openssh-clients sshpass yum-utils yamllint \
  && yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo \
  && yum install -y docker-ce-cli \
- && chmod 755 /bin/uid_entrypoint \
  && yum remove -y yum-utils \
  && yum clean all \
  && rm -Rf /var/cache/yum
@@ -35,8 +32,6 @@ RUN DOCKER_COMPOSE_DOWNLOAD_URL="https://github.com/docker/compose/releases/down
 
 RUN S2I_DOWNLOAD_URL="https://github.com/openshift/source-to-image/releases/download/v1.1.13/source-to-image-v1.1.13-b54d75d3-linux-amd64.tar.gz" \
  && curl -sSfL $S2I_DOWNLOAD_URL | tar -xzC /bin
-
-COPY digicert.crt /etc/pki/ca-trust/source/anchors/digi.crt
 
 RUN TMP=$(mktemp -d) \
  && curl -sSfL https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz | tar -xz -C $TMP \
@@ -60,8 +55,13 @@ RUN curl -LO https://github.com/kubernetes-sigs/kubefed/releases/download/v${KUB
   && chmod u+x kubefedctl \
   && mv kubefedctl /usr/bin
 
-USER 1001
+COPY ./root/ /
 
-ENTRYPOINT [ "/bin/uid_entrypoint" ]
+RUN chmod 755 /usr/bin/uid_entrypoint && \
+    chmod g=u /etc/passwd
+
+ENTRYPOINT [ "uid_entrypoint" ]
+
+USER 1001
 
 WORKDIR $HOME
