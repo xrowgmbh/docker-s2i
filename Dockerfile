@@ -14,6 +14,7 @@ ENV KUBECONFIG="$HOME/.kube/config"
 ENV KUBEFED_VERSION=0.1.0-rc6
 ENV OPERATORSDK_VERSION=0.10.0
 ENV HELM_VERSION=3.0.0-beta.3
+ENV HELM_VERSION2=2.14.3
 ENV COMPOSE_VERSION=1.23.2
 ENV OC_VERSION=1.23.2
 ENV S2I_VERSION=1.1.13
@@ -36,8 +37,16 @@ RUN S2I_DOWNLOAD_URL="https://github.com/openshift/source-to-image/releases/down
 RUN TMP=$(mktemp -d) \
  && curl -sSfL https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz | tar -xz -C $TMP \
  && mv $TMP/linux-amd64/helm /usr/bin \
- && chmod +x /usr/bin/helm
+ && chmod +x /usr/bin/helm \
+ && rm -Rf $TMP
 
+# BUG kubefed https://github.com/kubernetes-sigs/kubefed/issues/1143
+RUN TMP=$(mktemp -d) \
+ && curl -sSfL https://get.helm.sh/helm-v${HELM_VERSION2}-linux-amd64.tar.gz | tar -xz -C $TMP \
+ && mv $TMP/linux-amd64/helm /usr/bin/helm2 \
+ && chmod +x /usr/bin/helm2 \
+ && rm -Rf $TMP
+ 
 # Archive contains binaries for oc and kubectl
 RUN OC_DOWNLOAD_URL="https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz" \
  && TMP=$(mktemp -d) \
