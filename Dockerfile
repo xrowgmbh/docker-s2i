@@ -23,6 +23,7 @@ RUN yum install -y epel-release \
  && yum install -y git gettext ansible openssh-clients sshpass yum-utils yamllint \
  && yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo \
  && yum install -y docker-ce-cli \
+ && yum install -y buildah \
  && yum remove -y yum-utils \
  && yum clean all \
  && rm -Rf /var/cache/yum
