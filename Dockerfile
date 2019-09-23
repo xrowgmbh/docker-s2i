@@ -73,6 +73,4 @@ RUN chmod 755 /usr/bin/uid_entrypoint && \
 
 ENTRYPOINT [ "uid_entrypoint" ]
 
-USER 1001
-
 WORKDIR $HOME
