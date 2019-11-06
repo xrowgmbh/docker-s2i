@@ -4,7 +4,11 @@ Cloud native ci and build box. Has all the features for building S2I images, hel
 
 If Selinux is set to enforcing run those commadn first:
 
+´´´yaml
 chcon -Rt svirt_sandbox_file_t $(HOME)/.kube 
 chcon -Rt svirt_sandbox_file_t $(pwd)
+´´´
 
+´´´yaml
 docker run -it -v $HOME/.kube:/root/.kube -v $(pwd):/src -w /src xrowgmbh/s2i bash
+´´´
