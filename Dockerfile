@@ -1,4 +1,4 @@
-FROM centos:7
+FROM centos:8
 
 LABEL maintainer="bjoern@xrow.de" \
       org.label-schema.schema-version="1.0" \
