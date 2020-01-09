@@ -17,7 +17,7 @@ ENV HELM_VERSION=3.0.2
 ENV HELM_VERSION2=2.16.0
 ENV COMPOSE_VERSION=1.23.2
 ENV OC_VERSION=1.23.2
-ENV S2I_VERSION=1.1.13
+ENV S2I_VERSION=1.2.0
 
 RUN yum install -y epel-release \
  && yum install -y git gettext ansible openssh-clients sshpass yum-utils yamllint \
