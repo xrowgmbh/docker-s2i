@@ -24,6 +24,7 @@ RUN yum install -y epel-release \
  && yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo \
  && yum install -y docker-ce-cli \
  && yum install -y buildah \
+ && yum install -y podman \
  && yum remove -y yum-utils \
  && yum clean all \
  && rm -Rf /var/cache/yum
