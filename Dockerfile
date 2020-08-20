@@ -1,4 +1,4 @@
-FROM centos:7
+FROM centos:8
 
 LABEL maintainer="bjoern@xrow.de" \
       org.label-schema.schema-version="1.0" \
@@ -11,23 +11,19 @@ ENV LANG=en_US.UTF-8
 
 ENV KUBECONFIG="$HOME/.kube/config"
 
-ENV KUBEFED_VERSION=0.1.0-rc6
-ENV OPERATORSDK_VERSION=0.15.1
-ENV HELM_VERSION=3.2.1
-ENV HELM_VERSION2=2.16.0
+ENV KUBEFED_VERSION=0.4.0
+ENV OPERATORSDK_VERSION=1.0.0
+ENV HELM_VERSION=3.3.0
 ENV COMPOSE_VERSION=1.23.2
 ENV OC_VERSION=1.23.2
 ENV S2I_VERSION=1.3.0
 
-RUN yum install -y epel-release \
- && yum install -y git gettext ansible openssh-clients sshpass yum-utils yamllint \
- && yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo \
- && yum install -y docker-ce-cli \
- && yum install -y buildah \
- && yum install -y podman \
- && yum remove -y yum-utils \
- && yum clean all \
- && rm -Rf /var/cache/yum
+RUN dnf install -y epel-release \
+ && dnf install -y git gettext ansible openssh-clients sshpass yum-utils yamllint \
+ && dnf install -y buildah \
+ && dnf install -y podman podman-docker\
+ && dnf remove -y yum-utils \
+ && dnf clean all
 
 RUN DOCKER_COMPOSE_DOWNLOAD_URL="https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-Linux-x86_64" \
  && curl -sSfLo /bin/docker-compose $DOCKER_COMPOSE_DOWNLOAD_URL \
@@ -40,13 +36,6 @@ RUN TMP=$(mktemp -d) \
  && curl -sSfL https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz | tar -xz -C $TMP \
  && mv $TMP/linux-amd64/helm /usr/bin \
  && chmod +x /usr/bin/helm \
- && rm -Rf $TMP
-
-# BUG kubefed https://github.com/kubernetes-sigs/kubefed/issues/1143
-RUN TMP=$(mktemp -d) \
- && curl -sSfL https://get.helm.sh/helm-v${HELM_VERSION2}-linux-amd64.tar.gz | tar -xz -C $TMP \
- && mv $TMP/linux-amd64/helm /usr/bin/helm2 \
- && chmod +x /usr/bin/helm2 \
  && rm -Rf $TMP
  
 # Archive contains binaries for oc and kubectl
